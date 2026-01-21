@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
 
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({super.key});
+  const AddItemScreen({super.key, required this.onAddItem});
+
+  final void Function(WatchlistItem) onAddItem;
 
   @override
   State<AddItemScreen> createState() {
@@ -39,6 +41,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
+
+    final newItem = WatchlistItem(
+      id: DateTime.now().toString(),
+      title: _titleController.text,
+      genre: _selectedGenre,
+      status: _selectedStatus,
+      rating: _selectedRating,
+    );
+
+    widget.onAddItem(newItem);
 
     ScaffoldMessenger.of(
       context,

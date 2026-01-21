@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:watchlist_manager_movies_series/data/dummy_data.dart';
+import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
 
 class ViewListScreen extends StatelessWidget {
-  const ViewListScreen({super.key});
+  const ViewListScreen({super.key, required this.items});
+
+  final List<WatchlistItem> items;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class ViewListScreen extends StatelessWidget {
       ),
     );
 
-    if (dummyWatchlist.isNotEmpty) {
+    if (items.isNotEmpty) {
       content = ListView.builder(
-        itemCount: dummyWatchlist.length,
+        itemCount: items.length,
         itemBuilder: (ctx, index) {
-          final item = dummyWatchlist[index];
+          final item = items[index];
           return ListTile(
             leading: const Icon(Icons.movie),
             title: Text(item.title),
