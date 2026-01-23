@@ -73,6 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _saveItems();
   }
 
+  void _removeItem(String id) {
+    setState(() {
+      _items.removeWhere((item) => item.id == id);
+    });
+    _saveItems();
+  }
+
   void _selectScreen(BuildContext context, String identifier) {
     Navigator.of(context).pop();
 
@@ -82,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     } else if (identifier == 'view') {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (ctx) => ViewListScreen(items: _items)),
+        MaterialPageRoute(
+          builder: (ctx) =>
+              ViewListScreen(items: _items, onRemoveItem: _removeItem),
+        ),
       );
     }
   }
