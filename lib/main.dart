@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/screens/home_screen.dart';
+import 'package:watchlist_manager_movies_series/services/notification_service.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -9,7 +10,9 @@ final theme = ThemeData(
   ),
 );
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.initialize();
   runApp(const App());
 }
 

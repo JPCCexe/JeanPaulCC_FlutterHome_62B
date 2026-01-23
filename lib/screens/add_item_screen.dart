@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
+import 'package:watchlist_manager_movies_series/services/notification_service.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, required this.onAddItem});
@@ -13,7 +14,7 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  var _titleController = TextEditingController();
+  final _titleController = TextEditingController();
   var _selectedGenre = Genre.action;
   var _selectedStatus = WatchStatus.wantToWatch;
   var _selectedRating = 3;
@@ -24,7 +25,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.dispose();
   }
 
-  void _saveItem() {
+  Future<void> _saveItem() async {
     if (_titleController.text.trim().isEmpty) {
       showDialog(
         context: context,
@@ -52,9 +53,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
     widget.onAddItem(newItem);
 
+    await NotificationService.showNotification(
+      'New ${_selectedGenre.name.toUpperCase()} Added!',
+      '${_titleController.text} - Rating: $_selectedRating⭐',
+    );
+
+    if (!mounted) return;
+
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Saved: ${_titleController.text}')));
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!mounted) return;
     Navigator.pop(context);
   }
 

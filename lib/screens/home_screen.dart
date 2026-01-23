@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadItems();
   }
 
-  // ADDED: Load saved items from storage
+  // Loading saved items from Local Storage
   Future<void> _loadItems() async {
     final prefs = await SharedPreferences.getInstance();
     final String? itemsJson = prefs.getString('watchlist_items');
