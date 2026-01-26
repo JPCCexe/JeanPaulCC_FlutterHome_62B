@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 (e) => e.name == item['status'],
               ),
               rating: item['rating'],
+              imagePath: item['imagePath'],
             ),
           );
         }
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // ADDED: Save items to storage
+  // Save items to storage
   Future<void> _saveItems() async {
     final prefs = await SharedPreferences.getInstance();
     final List<Map<String, dynamic>> itemsJson = _items.map((item) {
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'genre': item.genre.name,
         'status': item.status.name,
         'rating': item.rating,
+        'imagePath': item.imagePath,
       };
     }).toList();
 

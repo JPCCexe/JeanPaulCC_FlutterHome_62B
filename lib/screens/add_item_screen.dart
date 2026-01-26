@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
 import 'package:watchlist_manager_movies_series/services/notification_service.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, required this.onAddItem});
@@ -18,11 +20,28 @@ class _AddItemScreenState extends State<AddItemScreen> {
   var _selectedGenre = Genre.action;
   var _selectedStatus = WatchStatus.wantToWatch;
   var _selectedRating = 3;
+  File? _selectedImage;
 
   @override
   void dispose() {
     _titleController.dispose();
     super.dispose();
+  }
+
+  Future<void> _takePicture() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+
+    if (pickedImage == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedImage = File(pickedImage.path);
+    });
   }
 
   Future<void> _saveItem() async {
@@ -49,6 +68,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       genre: _selectedGenre,
       status: _selectedStatus,
       rating: _selectedRating,
+      imagePath: _selectedImage?.path,
     );
 
     widget.onAddItem(newItem);
@@ -84,6 +104,29 @@ class _AddItemScreenState extends State<AddItemScreen> {
               decoration: const InputDecoration(labelText: 'Title'),
               keyboardType: TextInputType.text,
             ),
+
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _selectedImage == null
+                      ? const Text('No Image taken')
+                      : Image.file(
+                          _selectedImage!,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+
+                const SizedBox(width: 10),
+                ElevatedButton.icon(
+                  onPressed: _takePicture,
+                  icon: const Icon(Icons.camera),
+                  label: const Text('Take Photo'),
+                ),
+              ],
+            ),
+
             Row(
               children: [
                 DropdownButton(

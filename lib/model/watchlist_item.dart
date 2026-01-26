@@ -9,6 +9,7 @@ class WatchlistItem {
     required this.genre,
     required this.status,
     required this.rating,
+    this.imagePath,
   });
 
   final String id;
@@ -16,4 +17,5 @@ class WatchlistItem {
   final Genre genre;
   final WatchStatus status;
   final int rating;
+  final String? imagePath;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
+import 'dart:io';
 
 class ViewListScreen extends StatelessWidget {
   const ViewListScreen({
@@ -64,7 +65,14 @@ class ViewListScreen extends StatelessWidget {
               _removeItem(context, item);
             },
             child: ListTile(
-              leading: const Icon(Icons.movie),
+              leading: item.imagePath != null
+                  ? Image.file(
+                      File(item.imagePath!),
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
+                    )
+                  : const Icon(Icons.movie),
               title: Text(item.title),
               subtitle: Text('${item.genre.name} - ${item.status.name}'),
               trailing: Row(
