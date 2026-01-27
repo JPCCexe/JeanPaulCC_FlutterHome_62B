@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
 import 'dart:io';
 
+// Stateless widget displaying the watchlist with swipe to delete functionality
 class ViewListScreen extends StatelessWidget {
   const ViewListScreen({
     super.key,
@@ -30,7 +31,7 @@ class ViewListScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Uh oh ... nothing here!',
+            'Add a Movie/Serie',
             style: Theme.of(context).textTheme.headlineLarge!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
             ),

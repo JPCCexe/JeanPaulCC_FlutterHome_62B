@@ -6,6 +6,7 @@ import 'package:watchlist_manager_movies_series/widgets/main_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+// Main home screen managing watchlist items with persistent storage
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // List to hold all watchlist items in memory
   final List<WatchlistItem> _items = [];
 
   // Loading items when app starts
@@ -23,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadItems();
   }
 
-  // Loading saved items from Local Storage
+  // Loading saved items from SharedPreferences Storage
   Future<void> _loadItems() async {
     final prefs = await SharedPreferences.getInstance();
     final String? itemsJson = prefs.getString('watchlist_items');
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Save items to storage
+  // Save items to Shared Preferences storage
   Future<void> _saveItems() async {
     final prefs = await SharedPreferences.getInstance();
     final List<Map<String, dynamic>> itemsJson = _items.map((item) {
@@ -68,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await prefs.setString('watchlist_items', encoded);
   }
 
+  // Adds new item to watchlist and persists it to storage
   void _addItem(WatchlistItem item) {
     setState(() {
       _items.add(item);

@@ -4,6 +4,7 @@ import 'package:watchlist_manager_movies_series/services/notification_service.da
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+// Stateful widget for adding new movies/series to the watchlist
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, required this.onAddItem});
 
@@ -28,6 +29,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.dispose();
   }
 
+  // Opens camera to capture an image for the watchlist item
   Future<void> _takePicture() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(
@@ -45,6 +47,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<void> _saveItem() async {
+    // Validate that title is not empty
     if (_titleController.text.trim().isEmpty) {
       showDialog(
         context: context,
@@ -73,6 +76,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
     widget.onAddItem(newItem);
 
+    // Show local notification for successful addition
     await NotificationService.showNotification(
       'New ${_selectedGenre.name.toUpperCase()} Added!',
       '${_titleController.text} - Rating: $_selectedRating⭐',
@@ -80,6 +84,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
     if (!mounted) return;
 
+    // Display confirmation SnackBar
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Saved: ${_titleController.text}')));
@@ -109,15 +114,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
             Row(
               children: [
                 Expanded(
-                  child: _selectedImage == null
-                      ? const Text('No Image taken')
-                      : Image.file(
-                          _selectedImage!,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                  child: Text(
+                    _selectedImage == null
+                        ? 'No image taken'
+                        : 'A Photo is captured',
+                    style: TextStyle(
+                      color: _selectedImage == null
+                          ? Colors.grey
+                          : Colors.green,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-
                 const SizedBox(width: 10),
                 ElevatedButton.icon(
                   onPressed: _takePicture,
