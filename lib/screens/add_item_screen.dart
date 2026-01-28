@@ -4,6 +4,9 @@ import 'package:watchlist_manager_movies_series/services/notification_service.da
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+// Import for Fire base analytics
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 // Stateful widget for adding new movies/series to the watchlist
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, required this.onAddItem});
@@ -41,6 +44,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return;
     }
 
+    // Log for camera being used
+    FirebaseAnalytics.instance.logEvent(name: 'camera_used');
+
     setState(() {
       _selectedImage = File(pickedImage.path);
     });
@@ -75,6 +81,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
 
     widget.onAddItem(newItem);
+
+    // Log analytics event
+    FirebaseAnalytics.instance.logEvent(
+      name: 'add_watchlist_item',
+      parameters: {
+        'item_title': _titleController.text,
+        'item_genre': _selectedGenre.name,
+        'rating': _selectedRating,
+        'status': _selectedStatus.name,
+      },
+    );
 
     // Show local notification for successful addition
     await NotificationService.showNotification(

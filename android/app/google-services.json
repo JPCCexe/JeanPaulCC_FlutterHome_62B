@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774834550320",
+    "project_id": "flutterjeanpaulcc62b",
+    "storage_bucket": "flutterjeanpaulcc62b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774834550320:android:e690153002116001ea9ff5",
+        "android_client_info": {
+          "package_name": "com.example.watchlist_manager_movies_series"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLoxVCyu1M3PmvyncE4i4yDDR7BW1zc2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

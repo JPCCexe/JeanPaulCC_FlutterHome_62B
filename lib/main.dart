@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/screens/home_screen.dart';
 import 'package:watchlist_manager_movies_series/services/notification_service.dart';
 
+//Firebase Import
+import 'package:firebase_core/firebase_core.dart'; // ADD THIS LINE
+import 'firebase_options.dart';
+
 final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
@@ -13,6 +17,10 @@ final theme = ThemeData(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initialize();
+
+  // Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const App());
 }
 

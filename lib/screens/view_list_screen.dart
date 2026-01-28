@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:watchlist_manager_movies_series/model/watchlist_item.dart';
 import 'dart:io';
 
+// Import for Fire base analytics
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 // Stateless widget displaying the watchlist with swipe to delete functionality
 class ViewListScreen extends StatelessWidget {
   const ViewListScreen({
@@ -16,6 +19,12 @@ class ViewListScreen extends StatelessWidget {
   void _removeItem(BuildContext context, WatchlistItem item) {
     onRemoveItem(item.id);
 
+    // Log for removing item
+    FirebaseAnalytics.instance.logEvent(
+      name: 'remove_item',
+      parameters: {'item_title': item.title, 'item_genre': item.genre.name},
+    );
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${item.title} removed from watchlist'),
@@ -26,6 +35,12 @@ class ViewListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Log view watchlist event
+    FirebaseAnalytics.instance.logEvent(
+      name: 'view_watchlist',
+      parameters: {'item_count': items.length},
+    );
+
     Widget content = Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
