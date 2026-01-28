@@ -2,38 +2,28 @@ name: Flutter CI/CD
 
 on:
   push:
-    branches: [ main]
+    branches: [ main ]
   pull_request:
-    branches: [ main]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-
-    - name: Setup Flutter
+    - uses: actions/checkout@v4
+    
+    - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.0'
+        flutter-version: '3.24.0'  # ← Change this to a newer version
         channel: 'stable'
-
-    - name: Get dependencies
+    
+    - name: Install dependencies
       run: flutter pub get
-
-    - name: Analyze code
-      run: flutter analyze --no-fatal-infos
-
-    - name: Run tests (allow failure)
-      run: flutter test || true
-
+    
+    - name: Run tests
+      run: flutter test
+    
     - name: Build APK
       run: flutter build apk --release
